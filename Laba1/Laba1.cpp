@@ -1,73 +1,181 @@
 ﻿#include <iostream>
 #include <vector>
 #include <string>
+#include <chrono>
+#include <fstream>
+#include <format>
 
 using namespace std;
+
+//преобразование строки в пару объектов: часы и минуты
+pair<chrono::hours, chrono::minutes> makeTimeFromString(string t) {
+    string minStr, hrStr;
+    pair<chrono::hours, chrono::minutes> time;
+    hrStr = t.substr(0, t.find(':'));
+    minStr = t.substr(t.find(':') + 1);
+    time = make_pair(chrono::hours{ stoi(hrStr) }, chrono::minutes{ stoi(minStr) });
+    return time;
+}
 
 struct Menu {
     string title;
     double price;
-    tm preparationTime;
+    pair<chrono::hours, chrono::minutes> preparationTime;
+
+    virtual ~Menu() = default;
+
+    //Menu(string title, double price, pair<chrono::hours, chrono::minutes> preparationTime) : 
+    //    title{ title }, price{ price }, preparationTime{ preparationTime } {}
+
+    virtual shared_ptr<Menu> makeMenuFromString(string input) { return nullptr; }
+    virtual void showMenu() {}
 };
 
-bool stringValidation(string str) {
-    int divisorCount = 0, bracketsCount = 0, colonCount = 0, commaCount = 0;
-    for (auto i : str) {
-        if (i == ';') ++divisorCount;
-        if (i == '"') ++bracketsCount;
-        if (i == ':' && divisorCount == 2) ++colonCount;
-        if (i == ',' && divisorCount == 1) ++commaCount;
-    }
-    if (divisorCount == 2 && bracketsCount == 2 && colonCount == 1 && commaCount == 1)
-        return 1;
-    else
-        return 0;
-}
+//использовать dynamic_cast<Dish*>(m)
 
-tm makeTimeFromString(string t) {
-    string minStr, hrStr;
-    tm time;
-    for (int i = 0; i < t.size(); ++i) {
-        if (t[i] == ':') {
-            hrStr = t.substr(0, i);
-            minStr = t.substr(i + 1, t.size() - i - 1);
-            break;
-        }
-    }
-    time.tm_hour = stoi(hrStr);
-    time.tm_min = stoi(minStr);
-    return time;
-}
+struct Dish : public Menu {
+    int weight;
 
-Menu makeMenuFromString(string input) {
-    vector<string> args;
-    int prevDivisorPosition = 0;
-    for (int i = 0; i < input.size(); ++i) {
-        if (input[i] == ';' && prevDivisorPosition == 0) {
-            args.push_back(input.substr(1, i - 2));
-            prevDivisorPosition = i;
-        }
-        else if (input[i] == ';' && args.size() == 1) {
-            args.push_back(input.substr(prevDivisorPosition + 1, i - prevDivisorPosition - 1));
-            prevDivisorPosition = i;
-        }
-        else if (args.size() == 2 && i == input.size() - 1) {
-            args.push_back(input.substr(prevDivisorPosition + 1, i));
+    public :
+    static shared_ptr<Menu> makeMenuFromString(string input, int weight) {
+
+        auto dish = make_shared<Dish>();
+        vector<string> args(4);
+
+        args[0] = input.substr(1, input.find(';') - 2);
+        input = input.substr(input.find(';') + 1);
+        args[1] = input.substr(0, input.find(';'));
+        args[2] = input.substr(input.find(';') + 1);
+
+        dish->title = args[0];
+        dish->price = stod(args[1]);
+        dish->preparationTime = makeTimeFromString(args[2]);
+        dish->weight = weight;
+
+        return dish;
+    }
+
+    void showMenu() {
+        cout << "Блюдо: " << title << ", Цена: " << price << " рублей, Вес: " << weight << " г\n";
+    }
+};
+
+struct Beverage : public Menu {
+    int volume;
+
+    public:
+    static shared_ptr<Menu> makeMenuFromString(string input, int volume) {
+
+        auto bev = make_shared<Beverage>();
+        vector<string> args(4);
+
+        args[0] = input.substr(1, input.find(';') - 2);
+        input = input.substr(input.find(';') + 1);
+        args[1] = input.substr(0, input.find(';'));
+        args[2] = input.substr(input.find(';') + 1);
+
+        bev->title = args[0];
+        bev->price = stod(args[1]);
+        bev->preparationTime = makeTimeFromString(args[2]);
+        bev->volume = volume;
+
+        return bev;
+    }
+    void showMenu() {
+        cout << "Напиток: " << title << ", Цена: " << price << " рублей, Объём: " << volume << " мл\n";
+    }
+};
+
+//string filePath = "C:\\Users\\User\\Desktop\\fileSource.txt";
+
+vector<string> readFromFile(string filePath) {
+    vector<string> inputStrings;
+    string str;
+
+    fstream in(filePath);
+
+    if (in.is_open()) {
+        while (getline(in, str)) {
+            inputStrings.push_back(str);
         }
     }
-    return Menu{args[0], stod(args[1]), makeTimeFromString(args[2])};
+
+    in.close();
+
+    return inputStrings;
 }
 
 int main()
 {
     setlocale(0, "rus");
-    cout << "Введите строку в формате: ''Название блюда из меню'';цена(разделитель - запятая);время приготовления(разделитель - двоеточие)\n";
-    string input;
-    getline(cin, input);
-    while (stringValidation(input) == 0) {
-        cout << "Ой! Формат строки не подходит. Попробуйте ещё раз\n";
-        getline(cin, input);
+    string input, dishType, baseDishArgs, thisDishArgument;
+
+    int inputType;
+
+    vector<string> inputStrings;
+
+    cout << "Выберите, откуда считать данные:\n1 - Текстовый файл\n2 - Консоль\n";
+
+    cin >> inputType;
+
+    if (inputType == 1) {
+        string filePath;
+        cout << "Введите путь к файлу\n";
+
+        cin >> filePath;
+
+        inputStrings = readFromFile(filePath);
     }
-    Menu menu = makeMenuFromString(input);
-    cout << menu.title << ' ' << menu.price << ' ' << menu.preparationTime.tm_hour << ':' << menu.preparationTime.tm_min;
+
+    else {
+        int objectsCount;
+
+        cout << "Введите количество объектов, которые Вы хотите внести\n";
+        cin >> objectsCount;
+
+        inputStrings.resize(objectsCount);
+
+        cout << "Введите строку в формате : \nТип блюда с заглавной буквы; ''Название блюда из меню''; цена(разделитель - запятая); время приготовления(разделитель - двоеточие); масса / объём(в зависимости от типа блюда)\nРазделитель - клавиша Enter";
+        
+        for (int i = 0; i < objectsCount; ++i) {
+            cin >> inputStrings[i];
+        }
+    }
+
+    vector<shared_ptr<Menu>> menuCollection;
+
+    for (int i = 0; i < inputStrings.size(); ++i) {
+
+        input = inputStrings[i];
+
+        //тип блюда - первое свойство во входных данных
+        dishType = input.substr(0, input.find(';'));
+
+        //основные свойства, относящиеся ко всем объектам из меню (Меню, Блюдо, Напиток)
+        baseDishArgs = input.substr(input.find(';') + 1, input.find_last_of(';') - input.find(';'));
+
+        //последнее свойство во входных данных обозначает либо вес, либо объем,
+        //в зависимости от указанного типа объекта
+        thisDishArgument = input.substr(input.find_last_of(';') + 1);
+
+        if (dishType == "Напиток" || dishType == "Beverage") {
+            auto bev = Beverage::makeMenuFromString(baseDishArgs, stoi(thisDishArgument));
+            //(Beverage::makeMenuFromString(baseDishArgs, stoi(thisDishArgument)) > );
+            menuCollection.push_back(bev);
+        }
+        else if (dishType == "Dish" || dishType == "Блюдо") {
+            auto dish = Dish::makeMenuFromString(baseDishArgs, stoi(thisDishArgument));
+                //Dish::makeMenuFromString(baseDishArgs, stoi(thisDishArgument));
+            menuCollection.push_back(dish);
+        }
+    }
+
+    if (menuCollection.size() > 0) {
+        cout << "\n                        МЕНЮ\n";
+        for (auto& item : menuCollection) {
+            item->showMenu();
+        }
+    }
+
+    return 0;
 }
