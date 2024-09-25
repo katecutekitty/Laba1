@@ -4,18 +4,9 @@
 #include <chrono>
 #include <fstream>
 #include <format>
+#include "utils.h"
 
 using namespace std;
-
-//преобразование строки в пару объектов: часы и минуты
-pair<chrono::hours, chrono::minutes> makeTimeFromString(string t) {
-    string minStr, hrStr;
-    pair<chrono::hours, chrono::minutes> time;
-    hrStr = t.substr(0, t.find(':'));
-    minStr = t.substr(t.find(':') + 1);
-    time = make_pair(chrono::hours{ stoi(hrStr) }, chrono::minutes{ stoi(minStr) });
-    return time;
-}
 
 struct Menu {
     string title;
@@ -23,9 +14,6 @@ struct Menu {
     pair<chrono::hours, chrono::minutes> preparationTime;
 
     virtual ~Menu() = default;
-
-    //Menu(string title, double price, pair<chrono::hours, chrono::minutes> preparationTime) : 
-    //    title{ title }, price{ price }, preparationTime{ preparationTime } {}
 
     virtual shared_ptr<Menu> makeMenuFromString(string input) { return nullptr; }
     virtual void showMenu() {}
@@ -165,7 +153,6 @@ int main()
         }
         else if (dishType == "Dish" || dishType == "Блюдо") {
             auto dish = Dish::makeMenuFromString(baseDishArgs, stoi(thisDishArgument));
-                //Dish::makeMenuFromString(baseDishArgs, stoi(thisDishArgument));
             menuCollection.push_back(dish);
         }
     }
