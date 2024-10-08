@@ -7,4 +7,6 @@ using namespace std;
 
 pair<chrono::hours, chrono::minutes> makeTimeFromString(string t);
 
+bool checkString(string s);
+
 #endif 

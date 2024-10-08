@@ -14,5 +14,6 @@ pair<chrono::hours, chrono::minutes> makeTimeFromString(string t) {
     time = make_pair(chrono::hours{ stoi(hrStr) }, chrono::minutes{ stoi(minStr) });
     return time;
 }
+bool checkString(string s) {
 
 }
