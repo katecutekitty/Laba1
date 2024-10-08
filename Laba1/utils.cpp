@@ -1,5 +1,6 @@
 #include <string>
 #include <chrono>
+#include <string>
 #include "utils.h"
 #pragma once;
 
@@ -12,4 +13,6 @@ pair<chrono::hours, chrono::minutes> makeTimeFromString(string t) {
     minStr = t.substr(t.find(':') + 1);
     time = make_pair(chrono::hours{ stoi(hrStr) }, chrono::minutes{ stoi(minStr) });
     return time;
+}
+
 }

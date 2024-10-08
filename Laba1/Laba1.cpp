@@ -148,7 +148,6 @@ int main()
 
         if (dishType == "Напиток" || dishType == "Beverage") {
             auto bev = Beverage::makeMenuFromString(baseDishArgs, stoi(thisDishArgument));
-            //(Beverage::makeMenuFromString(baseDishArgs, stoi(thisDishArgument)) > );
             menuCollection.push_back(bev);
         }
         else if (dishType == "Dish" || dishType == "Блюдо") {
