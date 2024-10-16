@@ -1,17 +1,13 @@
 #include "Menu.h"
 #include "Dish.h"
+#include "utils.h"
 
 class Dish : public Menu {
 	int weight;
 public:
 	static shared_ptr<Menu> makeMenuFromString(string input, int weight) {
 		auto dish = make_shared<Dish>();
-		vector<string> args(4);
-
-		args[0] = input.substr(1, input.find(';') - 2);
-		input = input.substr(input.find(';') + 1);
-		args[1] = input.substr(0, input.find(';'));
-		args[2] = input.substr(input.find(';') + 1);
+		vector<string> args = divideStringIntoParameters(input);
 
 		dish->title = args[0];
 		dish->price = stod(args[1]);

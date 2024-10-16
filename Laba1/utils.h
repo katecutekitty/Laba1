@@ -2,6 +2,7 @@
 
 #include <string>
 #include <chrono>
+#include <vector>
 
 using namespace std;
 
@@ -9,6 +10,6 @@ pair<chrono::hours, chrono::minutes> makeTimeFromString(string t);
 
 bool checkString(string s);
 
-
+vector<string> divideStringIntoParameters(string s);
 
 #endif 

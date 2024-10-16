@@ -17,3 +17,13 @@ pair<chrono::hours, chrono::minutes> makeTimeFromString(string t) {
 bool checkString(string s) {
 
 }
+
+vector<string> divideStringIntoParameters(string input) {
+    vector<string> args(4);
+    args[0] = input.substr(1, input.find(';') - 2);
+    input = input.substr(input.find(';') + 1);
+    args[1] = input.substr(0, input.find(';'));
+    args[2] = input.substr(input.find(';') + 1);
+
+    return args;
+}

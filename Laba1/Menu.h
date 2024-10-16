@@ -15,7 +15,7 @@ public:
 
     virtual ~Menu() = default;
 
-    virtual shared_ptr<Menu> makeMenuFromString(string input) { }
-    virtual void showMenu() {}
+    virtual shared_ptr<Menu> makeMenuFromString(string input);
+    virtual void showMenu();
 };
 
