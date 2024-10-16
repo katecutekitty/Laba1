@@ -4,36 +4,24 @@
 #include <chrono>
 #include <fstream>
 #include <format>
+#include "utils.h"
+#include "factory.h"
 
 using namespace std;
 
-//преобразование строки в пару объектов: часы и минуты
-pair<chrono::hours, chrono::minutes> makeTimeFromString(string t) {
-    string minStr, hrStr;
-    pair<chrono::hours, chrono::minutes> time;
-    hrStr = t.substr(0, t.find(':'));
-    minStr = t.substr(t.find(':') + 1);
-    time = make_pair(chrono::hours{ stoi(hrStr) }, chrono::minutes{ stoi(minStr) });
-    return time;
-}
-
-struct Menu {
+/*class Menu {
+public:
     string title;
     double price;
     pair<chrono::hours, chrono::minutes> preparationTime;
 
     virtual ~Menu() = default;
 
-    //Menu(string title, double price, pair<chrono::hours, chrono::minutes> preparationTime) : 
-    //    title{ title }, price{ price }, preparationTime{ preparationTime } {}
-
     virtual shared_ptr<Menu> makeMenuFromString(string input) { return nullptr; }
     virtual void showMenu() {}
-};
+};*/
 
-//использовать dynamic_cast<Dish*>(m)
-
-struct Dish : public Menu {
+/*class Dish : public Menu {
     int weight;
 
     public :
@@ -58,9 +46,9 @@ struct Dish : public Menu {
     void showMenu() {
         cout << "Блюдо: " << title << ", Цена: " << price << " рублей, Вес: " << weight << " г\n";
     }
-};
+};*/
 
-struct Beverage : public Menu {
+/*class Beverage : public Menu {
     int volume;
 
     public:
@@ -84,7 +72,7 @@ struct Beverage : public Menu {
     void showMenu() {
         cout << "Напиток: " << title << ", Цена: " << price << " рублей, Объём: " << volume << " мл\n";
     }
-};
+};*/
 
 //string filePath = "C:\\Users\\User\\Desktop\\fileSource.txt";
 
@@ -160,12 +148,10 @@ int main()
 
         if (dishType == "Напиток" || dishType == "Beverage") {
             auto bev = Beverage::makeMenuFromString(baseDishArgs, stoi(thisDishArgument));
-            //(Beverage::makeMenuFromString(baseDishArgs, stoi(thisDishArgument)) > );
             menuCollection.push_back(bev);
         }
         else if (dishType == "Dish" || dishType == "Блюдо") {
             auto dish = Dish::makeMenuFromString(baseDishArgs, stoi(thisDishArgument));
-                //Dish::makeMenuFromString(baseDishArgs, stoi(thisDishArgument));
             menuCollection.push_back(dish);
         }
     }
