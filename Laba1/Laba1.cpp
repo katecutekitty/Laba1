@@ -5,10 +5,12 @@
 #include <fstream>
 #include <format>
 #include "utils.h"
+#include "factory.h"
 
 using namespace std;
 
-struct Menu {
+/*class Menu {
+public:
     string title;
     double price;
     pair<chrono::hours, chrono::minutes> preparationTime;
@@ -17,11 +19,9 @@ struct Menu {
 
     virtual shared_ptr<Menu> makeMenuFromString(string input) { return nullptr; }
     virtual void showMenu() {}
-};
+};*/
 
-//использовать dynamic_cast<Dish*>(m)
-
-struct Dish : public Menu {
+/*class Dish : public Menu {
     int weight;
 
     public :
@@ -46,9 +46,9 @@ struct Dish : public Menu {
     void showMenu() {
         cout << "Блюдо: " << title << ", Цена: " << price << " рублей, Вес: " << weight << " г\n";
     }
-};
+};*/
 
-struct Beverage : public Menu {
+/*class Beverage : public Menu {
     int volume;
 
     public:
@@ -72,7 +72,7 @@ struct Beverage : public Menu {
     void showMenu() {
         cout << "Напиток: " << title << ", Цена: " << price << " рублей, Объём: " << volume << " мл\n";
     }
-};
+};*/
 
 //string filePath = "C:\\Users\\User\\Desktop\\fileSource.txt";
 
