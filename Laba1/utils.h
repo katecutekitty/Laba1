@@ -12,4 +12,6 @@ bool checkString(string s);
 
 vector<string> divideStringIntoParameters(string s);
 
+vector<string> readFromFile(string filePath);
+
 #endif 

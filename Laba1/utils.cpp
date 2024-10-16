@@ -1,6 +1,7 @@
 #include <string>
 #include <chrono>
 #include <string>
+#include <fstream>
 #include "utils.h"
 #pragma once;
 
@@ -26,4 +27,21 @@ vector<string> divideStringIntoParameters(string input) {
     args[2] = input.substr(input.find(';') + 1);
 
     return args;
+}
+
+vector<string> readFromFile(string filePath) {
+    vector<string> inputStrings;
+    string str;
+
+    fstream in(filePath);
+
+    if (in.is_open()) {
+        while (getline(in, str)) {
+            inputStrings.push_back(str);
+        }
+    }
+
+    in.close();
+
+    return inputStrings;
 }
