@@ -7,10 +7,12 @@
 #include <iostream>
 
 
-class Beverage : public Menu {
+class Beverage : public Menu 
+{
     int volume;
 
-public:
+public: 
+
     static shared_ptr<Menu> makeMenuFromString(string input, int volume);
     void showMenu();
 };

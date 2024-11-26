@@ -2,12 +2,10 @@
 #include "Menu.h"
 #include "utils.h"
 
-class Beverage : public Menu {
-	int volume;
-public:
-	static shared_ptr<Menu> makeMenuFromString(string input, int volume) {
+	shared_ptr<Menu> Beverage::makeMenuFromString(string input, int volume) {
 		auto bev = make_shared<Beverage>();
 		vector<string> args = divideStringIntoParameters(input);
+		validateArgs(args, volume);
 
 		bev->title = args[0];
 		bev->price = stod(args[1]);
@@ -17,7 +15,6 @@ public:
 		return bev;
 	}
 
-	void showMenu() {
-		cout << "Напиток: " << title << ", Цена: " << price << " рублей, Вес: " << volume << " г\n";
+	void Beverage::showMenu() {
+		cout << "Напиток: " << title << ", Цена: " << price << " рублей, Объём: " << volume << " мл\n";
 	}
-};

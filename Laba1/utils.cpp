@@ -3,23 +3,19 @@
 #include <string>
 #include <fstream>
 #include "utils.h"
+#include "InvalidStringFormatException.h"
 #pragma once;
 
-using namespace std;
-
-pair<chrono::hours, chrono::minutes> makeTimeFromString(string t) {
-    string minStr, hrStr;
-    pair<chrono::hours, chrono::minutes> time;
+std::pair<chrono::hours, chrono::minutes> makeTimeFromString(std::string t) {
+    std::string minStr, hrStr;
+    std::pair<chrono::hours, chrono::minutes> time;
     hrStr = t.substr(0, t.find(':'));
     minStr = t.substr(t.find(':') + 1);
     time = make_pair(chrono::hours{ stoi(hrStr) }, chrono::minutes{ stoi(minStr) });
     return time;
 }
-bool checkString(string s) {
 
-}
-
-vector<string> divideStringIntoParameters(string input) {
+std::vector<std::string> divideStringIntoParameters(std::string input) {
     vector<string> args(4);
     args[0] = input.substr(1, input.find(';') - 2);
     input = input.substr(input.find(';') + 1);
@@ -29,7 +25,7 @@ vector<string> divideStringIntoParameters(string input) {
     return args;
 }
 
-vector<string> readFromFile(string filePath) {
+std::vector<std::string> readFromFile(std::string filePath) {
     vector<string> inputStrings;
     string str;
 
@@ -44,4 +40,13 @@ vector<string> readFromFile(string filePath) {
     in.close();
 
     return inputStrings;
+}
+
+void validateArgs(const vector<string>& args, int lastParam) {
+    if (args.size() < 3) {
+        throw InvalidStringFormatException("Неверный формат строки: недостаточно параметров.");
+    }
+    if (stod(args[1]) <= 0 || lastParam <= 0) {
+        throw InvalidStringFormatException("Цена и объём должны быть положительными числами.");
+    }
 }
