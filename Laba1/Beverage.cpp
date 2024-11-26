@@ -4,7 +4,7 @@
 
 	shared_ptr<Menu> Beverage::makeMenuFromString(string input, int volume) {
 		auto bev = make_shared<Beverage>();
-		vector<string> args = divideStringIntoParameters(input);
+		vector<string> args = divideStringIntoParameters(input.substr(input.find(';') + 1));
 		validateArgs(args, volume);
 
 		bev->title = args[0];
@@ -17,4 +17,8 @@
 
 	void Beverage::showMenu() {
 		cout << "Напиток: " << title << ", Цена: " << price << " рублей, Объём: " << volume << " мл\n";
+	}
+
+	int Beverage::getVolume() {
+		return volume;
 	}

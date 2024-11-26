@@ -9,11 +9,12 @@
 
 class Beverage : public Menu 
 {
-    int volume;
+    
 
 public: 
-
+    int volume;
     static shared_ptr<Menu> makeMenuFromString(string input, int volume);
     void showMenu();
+    int getVolume();
 };
 

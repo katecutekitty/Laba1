@@ -2,6 +2,7 @@
 #include <chrono>
 #include <string>
 #include <fstream>
+#include <iostream>
 #include "utils.h"
 #include "InvalidStringFormatException.h"
 #pragma once;
@@ -17,10 +18,12 @@ std::pair<chrono::hours, chrono::minutes> makeTimeFromString(std::string t) {
 
 std::vector<std::string> divideStringIntoParameters(std::string input) {
     vector<string> args(4);
-    args[0] = input.substr(1, input.find(';') - 2);
+    args[0] = input.substr(0, input.find(';'));
     input = input.substr(input.find(';') + 1);
     args[1] = input.substr(0, input.find(';'));
     args[2] = input.substr(input.find(';') + 1);
+
+    
 
     return args;
 }

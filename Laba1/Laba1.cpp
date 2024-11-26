@@ -23,7 +23,7 @@ vector<string> getInputFromConsole() {
     cin >> objectsCount;
 
     vector<string> inputStrings(objectsCount);
-    cout << "Введите строку в формате: Тип;Название;Цена;Время;Масса/Объём\n";
+    cout << "Введите строку в формате: Тип;\"Название\";Цена;Время;Масса/Объём\n";
 
     cin.ignore();
     for (int i = 0; i < objectsCount; ++i) {
@@ -33,7 +33,7 @@ vector<string> getInputFromConsole() {
     return inputStrings;
 }
 
-int main()
+/*/int main()
 {
     setlocale(0, "rus");
     string input;
@@ -63,4 +63,4 @@ int main()
     }
 
     return 0;
-}
+}*/

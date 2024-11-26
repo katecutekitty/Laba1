@@ -4,7 +4,7 @@
 
 shared_ptr<Menu> Dish::makeMenuFromString(string input, int weight) {
 		auto dish = make_shared<Dish>();
-		vector<string> args = divideStringIntoParameters(input);
+		vector<string> args = divideStringIntoParameters(input.substr(input.find(';')+1));
 		validateArgs(args, weight);
 
 		dish->title = args[0];
@@ -17,4 +17,7 @@ shared_ptr<Menu> Dish::makeMenuFromString(string input, int weight) {
 
 	void Dish::showMenu() {
 		cout << "Блюдо: " << title << ", Цена: " << price << " рублей, Вес: " << weight << " г\n";
+	}
+	int Dish::getWeight() {
+		return weight;
 	}

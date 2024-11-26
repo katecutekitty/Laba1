@@ -132,6 +132,7 @@
     <ClCompile Include="factory.cpp" />
     <ClCompile Include="Laba1.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MenuTests.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +141,7 @@
     <ClInclude Include="factory.h" />
     <ClInclude Include="InvalidStringFormatException.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="TestFramework.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

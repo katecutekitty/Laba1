@@ -8,11 +8,12 @@
 
 
 class Dish : public Menu
-{ int weight;
+{ 
 
     public:
-
+        int weight;
         static shared_ptr<Menu> makeMenuFromString(string input, int weight);
         void showMenu();
+        int getWeight();
 };
 
