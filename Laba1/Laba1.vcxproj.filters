@@ -21,9 +21,6 @@
     <ClCompile Include="utils.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="invalid_string_exception.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="factory.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -36,13 +33,13 @@
     <ClCompile Include="Beverage.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="MenuTests.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
       <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="invalid_string_exception.h">
-      <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="factory.h">
       <Filter>Файлы заголовков</Filter>
@@ -54,6 +51,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Beverage.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="InvalidStringFormatException.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTest.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

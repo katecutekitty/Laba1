@@ -3,6 +3,7 @@
 #include <chrono>
 #include <string>
 #include <shared_mutex>
+#include "utils.h"
 
 using namespace std;
 
@@ -14,8 +15,6 @@ public:
     pair<chrono::hours, chrono::minutes> preparationTime;
 
     virtual ~Menu() = default;
-
-    virtual shared_ptr<Menu> makeMenuFromString(string input) { }
-    virtual void showMenu() {}
+    virtual void showMenu();
 };
 

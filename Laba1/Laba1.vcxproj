@@ -130,17 +130,18 @@
     <ClCompile Include="Beverage.cpp" />
     <ClCompile Include="Dish.cpp" />
     <ClCompile Include="factory.cpp" />
-    <ClCompile Include="invalid_string_exception.cpp" />
     <ClCompile Include="Laba1.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MenuTests.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Beverage.h" />
     <ClInclude Include="Dish.h" />
     <ClInclude Include="factory.h" />
-    <ClInclude Include="invalid_string_exception.h" />
+    <ClInclude Include="InvalidStringFormatException.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="MyTest.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
