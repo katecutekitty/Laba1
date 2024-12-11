@@ -4,7 +4,7 @@
 
 shared_ptr<Menu> Dish::makeMenuFromString(string input, int weight) {
 		auto dish = make_shared<Dish>();
-		vector<string> args = divideStringIntoParameters(input.substr(input.find(';')+1));
+		vector<string> args = divideStringIntoParameters(input);
 		validateArgs(args, weight);
 
 		dish->title = args[0];

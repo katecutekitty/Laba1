@@ -141,7 +141,7 @@
     <ClInclude Include="factory.h" />
     <ClInclude Include="InvalidStringFormatException.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="TestFramework.h" />
+    <ClInclude Include="MyTest.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

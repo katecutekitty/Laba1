@@ -4,7 +4,7 @@
 
 	shared_ptr<Menu> Beverage::makeMenuFromString(string input, int volume) {
 		auto bev = make_shared<Beverage>();
-		vector<string> args = divideStringIntoParameters(input.substr(input.find(';') + 1));
+		vector<string> args = divideStringIntoParameters(input);
 		validateArgs(args, volume);
 
 		bev->title = args[0];

@@ -1,38 +1,51 @@
-#include "TestFramework.h"
+#include "MyTest.h"
 #include "Dish.h"
 #include "Beverage.h"
 #include "utils.h"
 #include "factory.h"
+#include <iostream>
+#include "InvalidStringFormatException.h"
 
 int main() {
-    TestFramework::runTests();
+    setlocale(0, "rus");
+    MyTest::runTests();
     return 0;
 }
 
 TEST(MakeDish) {
     std::string input = "Dish;Salad;350;15:00";
-    auto dish = Dish::makeMenuFromString(input.substr(input.find(';')), 150);
+    auto dish = Dish::makeMenuFromString(input.substr(input.find(';')+1), 150);
 
-    ASSERT_EQ("Salad", dish->title);             // Проверка строки
-    ASSERT_EQ(350.0, dish->price);                  // Проверка double
-    ASSERT_EQ(150, dynamic_cast<Dish*>(dish.get())->getWeight()); // Проверка целого числа
+    ASSERT_EQ("Salad", dish->title);             
+    ASSERT_EQ(350.0, dish->price);                 
+    ASSERT_EQ(150, dynamic_cast<Dish*>(dish.get())->getWeight()); 
 }
 
 TEST(MakeBeverage) {
     std::string input = "Beverage;Coffee;200,0;5:00";
-    auto bev = Beverage::makeMenuFromString(input.substr(input.find(';')), 200);
+    auto bev = Beverage::makeMenuFromString(input.substr(input.find(';')+1), 200);
 
-    ASSERT_EQ("Coffee", bev->title);            // Проверка строки
-    ASSERT_EQ(200.0, bev->price);                   // Проверка double
-    ASSERT_EQ(200, dynamic_cast<Beverage*>(bev.get())->getVolume()); // Проверка целого числа
+    ASSERT_EQ("Coffee", bev->title);            
+    ASSERT_EQ(200.0, bev->price);                   
+    ASSERT_EQ(200, dynamic_cast<Beverage*>(bev.get())->getVolume()); 
 }
 
-TEST(InvalidInput) {
-    std::string invalidInput = "Dish;Salad;invalidPrice;15:00";
-    try {
-        auto dish = Dish::makeMenuFromString(invalidInput.substr(invalidInput.find(';')+1), 150);
-        ASSERT_TRUE(false); // Эта строка не должна выполниться
-    } catch (const std::exception& e) {
-        ASSERT_EQ(std::string("Invalid input format"), e.what()); // Проверка ошибки
-    }
+TEST(InvalidInput_MissingSemicolon) {
+    std::string input = "DishSalad35015:00";
+    ASSERT_EXCEPTION(parseInput(input), InvalidStringFormatException);
+}
+
+TEST(InvalidInput_MissingLastArgument) {
+    std::string input = "Salad;350;";
+    ASSERT_EXCEPTION(divideStringIntoParameters(input), InvalidStringFormatException);
+}
+
+TEST(InvalidInput_ExtraSemicolon) {
+    std::string input = ";;;Salad;350";  
+    ASSERT_EXCEPTION(divideStringIntoParameters(input), InvalidStringFormatException);
+}
+
+TEST(InvalidInput_InvalidTimeFormat) {
+    std::string input = "Dish;Salad;350,0;1500";  
+    ASSERT_EXCEPTION(divideStringIntoParameters(input), InvalidStringFormatException);
 }

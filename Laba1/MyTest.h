@@ -5,8 +5,9 @@
 #include <functional>
 #include <string>
 #include <stdexcept>
+#include "InvalidStringFormatException.h"
 
-class TestFramework {
+class MyTest {
 public:
     static void registerTest(const std::string& name, const std::function<void()>& test) {
         getTests().push_back({ name, test });
@@ -57,6 +58,20 @@ public:
         }
     }
 
+    /*static void assertException(const std::function<void()>& func, const std::type_info& expectedExceptionType) {
+        try {
+            func();  // Выполняем функцию
+            throw std::runtime_error("Expected exception of type " + std::string(expectedExceptionType.name()) + " but got none");
+        }
+        catch (const std::exception& e) {
+            // Сравниваем тип выброшенного исключения с ожидаемым
+            if (typeid(e) != expectedExceptionType) {
+                throw std::runtime_error("Expected exception of type " + std::string(expectedExceptionType.name()) +
+                    " but got exception of type " + typeid(e).name());
+            }
+        }
+    }*/
+
 private:
     static std::vector<std::pair<std::string, std::function<void()>>>& getTests() {
         static std::vector<std::pair<std::string, std::function<void()>>> tests;
@@ -66,8 +81,23 @@ private:
 
 #define TEST(name) void name(); \
     static const bool name##_registered = \
-        (TestFramework::registerTest(#name, name), true); \
+        (MyTest::registerTest(#name, name), true); \
     void name()
 
-#define ASSERT_TRUE(condition) TestFramework::assertTrue(condition, #condition " failed")
-#define ASSERT_EQ(expected, actual) TestFramework::assertEqual((expected), (actual), "Assertion failed")
+#define ASSERT_TRUE(condition) MyTest::assertTrue(condition, #condition " failed")
+#define ASSERT_EQ(expected, actual) MyTest::assertEqual((expected), (actual), "Assertion failed")
+#define ASSERT_EXCEPTION(expr, excType) { \
+    bool exceptionThrown = false;\
+    try { \
+        expr; \
+    } catch (const excType&) { \
+        exceptionThrown = true; \
+    } catch (...) { \
+        exceptionThrown = false; \
+    } \
+    if (!exceptionThrown) { \
+        std::ostringstream oss; \
+        oss << "Expected exception of type " << typeid(excType).name() << " but no exception was thrown"; \
+        throw std::runtime_error(oss.str()); \
+    } \
+}

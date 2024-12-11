@@ -56,7 +56,7 @@
     <ClInclude Include="InvalidStringFormatException.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="TestFramework.h">
+    <ClInclude Include="MyTest.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

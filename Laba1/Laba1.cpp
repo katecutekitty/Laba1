@@ -33,7 +33,7 @@ vector<string> getInputFromConsole() {
     return inputStrings;
 }
 
-/*/int main()
+/*int main()
 {
     setlocale(0, "rus");
     string input;
