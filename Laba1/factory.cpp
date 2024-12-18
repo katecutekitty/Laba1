@@ -37,14 +37,12 @@ shared_ptr<Menu> createMenuItem(const string& dishType, const string& baseDishAr
 
 vector<shared_ptr<Menu>> makeMenuCollection(const vector<string>& inputStrings) {
     vector<shared_ptr<Menu>> menuCollection;
-
     for (const auto& input : inputStrings) {
-            tuple<string,string,string> args = parseInput(input);
-            if (get<0>(args).empty() || get<1>(args).empty() || get<2>(args).empty() || std::count(input.begin(), input.end(), ';') != 4) throw InvalidStringFormatException("");
-            else
+        tuple<string, string, string> args = parseInput(input);
+        if (get<0>(args).empty() || get<1>(args).empty() || get<2>(args).empty() || std::count(input.begin(), input.end(), ';') != 4) throw InvalidStringFormatException("");
+        else
             menuCollection.push_back(createMenuItem(get<0>(args), get<1>(args), get<2>(args)));
     }
-
     return menuCollection;
 }
 
