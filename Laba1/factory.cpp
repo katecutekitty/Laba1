@@ -13,7 +13,7 @@ using namespace std;
 
 // разбор строки на аргументы
 tuple<string, string, string> parseInput(const string& input) {
-        if (std::count(input.begin(), input.end(), ';') != 3) throw InvalidStringFormatException("Некорректное число разделителей"); 
+        if (std::count(input.begin(), input.end(), ';') != 4) throw InvalidStringFormatException("Некорректное число разделителей"); 
         else {
             string dishType = input.substr(0, input.find(';'));
             string baseDishArgs = input.substr(input.find(';') + 1, input.find_last_of(';') - input.find(';') - 1);
@@ -39,16 +39,10 @@ vector<shared_ptr<Menu>> makeMenuCollection(const vector<string>& inputStrings) 
     vector<shared_ptr<Menu>> menuCollection;
 
     for (const auto& input : inputStrings) {
-        try {
             tuple<string,string,string> args = parseInput(input);
+            if (get<0>(args).empty() || get<1>(args).empty() || get<2>(args).empty() || std::count(input.begin(), input.end(), ';') != 4) throw InvalidStringFormatException("");
+            else
             menuCollection.push_back(createMenuItem(get<0>(args), get<1>(args), get<2>(args)));
-        }
-        catch (const InvalidStringFormatException& e) {
-            cerr << "Ошибка обработки строки: " << e.what() << endl;
-        }
-        catch (const exception& e) {
-            cerr << "Общая ошибка: " << e.what() << endl;
-        }
     }
 
     return menuCollection;
